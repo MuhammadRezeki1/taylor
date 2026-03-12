@@ -1,0 +1,122 @@
+CREATE DATABASE IF NOT EXISTS jahit_buknining CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE jahit_buknining;
+
+CREATE TABLE layanan (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nama VARCHAR(200) NOT NULL,
+  deskripsi TEXT,
+  harga_mulai INT DEFAULT 0,
+  icon VARCHAR(100),
+  urutan INT DEFAULT 0,
+  aktif TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE testimoni (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nama VARCHAR(150) NOT NULL,
+  kota VARCHAR(100),
+  isi TEXT NOT NULL,
+  bintang INT DEFAULT 5,
+  foto VARCHAR(300),
+  aktif TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE pesanan (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nama_pelanggan VARCHAR(150) NOT NULL,
+  no_hp VARCHAR(20) NOT NULL,
+  email VARCHAR(200),
+  alamat TEXT,
+  jenis_layanan VARCHAR(200),
+  deskripsi_pesanan TEXT,
+  status ENUM('baru','diproses','selesai','dibatalkan') DEFAULT 'baru',
+  catatan_admin TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE kontak_masuk (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nama VARCHAR(150) NOT NULL,
+  email VARCHAR(200),
+  no_hp VARCHAR(20),
+  pesan TEXT NOT NULL,
+  sudah_dibaca TINYINT(1) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE galeri (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  judul VARCHAR(200),
+  deskripsi TEXT,
+  url_gambar VARCHAR(500) NOT NULL,
+  kategori VARCHAR(100) DEFAULT 'umum',
+  urutan INT DEFAULT 0,
+  aktif TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE blog (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  judul VARCHAR(400) NOT NULL,
+  slug VARCHAR(400) NOT NULL UNIQUE,
+  ringkasan TEXT,
+  konten LONGTEXT,
+  gambar_cover VARCHAR(500),
+  penulis VARCHAR(150) DEFAULT 'Buk Nining',
+  published TINYINT(1) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE settings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  `key` VARCHAR(100) NOT NULL UNIQUE,
+  `value` TEXT,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- ===================== SEED DATA =====================
+
+INSERT INTO layanan (nama, deskripsi, harga_mulai, icon, urutan) VALUES
+('Jahit Baju Baru', 'Buat baju impian Anda dari awal. Pilih kain, desain, dan ukuran sesuai selera.', 150000, '✂️', 1),
+('Permak & Reparasi', 'Kecilkan, besarkan, atau perbaiki pakaian lama agar terasa baru kembali.', 25000, '🧵', 2),
+('Jahit Kebaya', 'Kebaya cantik untuk wisuda, pernikahan, dan acara spesial lainnya.', 300000, '👗', 3),
+('Konveksi Seragam', 'Pesan seragam kantor, sekolah, komunitas dalam jumlah banyak dengan harga terjangkau.', 80000, '👔', 4),
+('Jahit Celana', 'Celana formal, kasual, atau jeans sesuai ukuran dan model pilihan Anda.', 100000, '👖', 5),
+('Bordir & Sablon', 'Tambahkan sentuhan personal dengan bordir nama, logo, atau motif pilihan.', 35000, '🎨', 6);
+
+INSERT INTO testimoni (nama, kota, isi, bintang) VALUES
+('Siti Rahma', 'Pekanbaru', 'Jahitannya rapi banget! Kebaya wisuda saya jadi persis seperti yang saya minta. Buk Nining sangat sabar dan telaten.', 5),
+('Dewi Susanti', 'Pekanbaru', 'Sudah 3 kali order di sini, selalu puas! Hasilnya bagus, harga terjangkau, dan pengerjaan tepat waktu.', 5),
+('Ahmad Fauzi', 'Pekanbaru', 'Seragam kantor kami pesan di sini, hasilnya memuaskan. Buk Nining sangat profesional dan ramah.', 5),
+('Rina Marlina', 'Pekanbaru', 'Permak baju saya yang kebesaran jadi pas di badan. Terima kasih Buk Nining, jahitannya halus!', 5),
+('Budi Santoso', 'Pekanbaru', 'Celana formal saya jahit di sini, hasilnya sangat memuaskan. Pasti balik lagi!', 5),
+('Yuli Astuti', 'Pekanbaru', 'Buk Nining sangat mengerti keinginan pelanggan. Dress pesta saya jadi cantik dan elegan!', 5);
+
+INSERT INTO galeri (judul, deskripsi, url_gambar, kategori, urutan) VALUES
+('Kebaya Wisuda', 'Kebaya wisuda cantik dengan detail bordir', 'httpsimages.unsplash.comphoto-1558618666-fcd25c85cd64w=600&h=400&fit=crop', 'kebaya', 1),
+('Seragam Kantor', 'Seragam kantor profesional dan elegan', 'httpsimages.unsplash.comphoto-1487222477894-8943e31ef7b2w=600&h=400&fit=crop', 'seragam', 2),
+('Baju Pesta', 'Dress pesta mewah dengan kain premium', 'httpsimages.unsplash.comphoto-1539008835657-9e8e9680c956w=600&h=400&fit=crop', 'pesta', 3),
+('Kemeja Batik', 'Kemeja batik modern untuk pria', 'httpsimages.unsplash.comphoto-1594938298603-c8148c4dae35w=600&h=400&fit=crop', 'batik', 4),
+('Celana Formal', 'Celana formal custom ukuran', 'httpsimages.unsplash.comphoto-1473966968600-fa801b869a1aw=600&h=400&fit=crop', 'celana', 5),
+('Bordir Nama', 'Bordir nama dan logo profesional', 'httpsimages.unsplash.comphoto-1558769132-cb1aea458c5ew=600&h=400&fit=crop', 'bordir', 6);
+
+INSERT INTO blog (judul, slug, ringkasan, konten, penulis, published) VALUES
+('Tips Memilih Kain yang Tepat untuk Baju Pesta', 'tips-memilih-kain-baju-pesta', 'Pilih kain yang nyaman dan elegan untuk tampil memukau di acara pesta Anda.', 'Konten lengkap tentang tips memilih kain untuk baju pesta...', 'Buk Nining', 1),
+('Cara Merawat Kebaya agar Awet dan Tidak Kusam', 'cara-merawat-kebaya-awet', 'Kebaya adalah pakaian istimewa yang perlu perawatan khusus agar tetap indah.', 'Konten lengkap tentang cara merawat kebaya...', 'Buk Nining', 1),
+('Tren Baju Seragam Kantor 2025', 'tren-seragam-kantor-2025', 'Seragam kantor kini tampil lebih modern dan stylish. Simak trennya!', 'Konten lengkap tentang tren seragam kantor 2025...', 'Buk Nining', 1);
+
+INSERT INTO settings (`key`, `value`) VALUES
+('nama_toko', 'Jahit Buk Nining'),
+('tagline', 'Jahitan Rapi, Harga Bersahabat'),
+('alamat', 'Jl. Contoh No. 123, Pekanbaru, Riau'),
+('no_hp', '08123456789'),
+('whatsapp', '628123456789'),
+('email', 'buknining@jahitbuknining.com'),
+('jam_buka', 'Senin - Sabtu 08.00 - 17.00 WIB'),
+('instagram', 'jahitbuknining'),
+('facebook', 'jahitbuknining'),
+('deskripsi', 'Jahit Buk Nining adalah jasa jahit profesional dengan pengalaman lebih dari 15 tahun. Kami menghadirkan jahitan berkualitas tinggi dengan harga yang bersahabat.');
