@@ -33,7 +33,7 @@ import { SettingsModule } from './settings/settings.module';
         password: cfg.get('DB_PASSWORD', ''),
         database: cfg.get('DB_DATABASE', 'jahit_buknining'),
         entities: [Layanan, Testimoni, Pesanan, KontakMasuk, Galeri, Blog, Setting],
-        synchronize: false,
+        synchronize: true,
         charset: 'utf8mb4',
       }),
     }),
