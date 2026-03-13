@@ -5,7 +5,16 @@ import Footer from '@/src/components/Footer';
 import WAFloat from '@/src/components/WAFloat';
 import { layananAPI, type Layanan } from '@/src/lib/api';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Scissors, RefreshCw, Sparkles, Shirt, PersonStanding, Paintbrush } from 'lucide-react';
+
+const iconMap: Record<string, React.ReactNode> = {
+  '✂️': <Scissors size={32} color="#e8a598" />,
+  '🧵': <RefreshCw size={32} color="#e8a598" />,
+  '👗': <Sparkles size={32} color="#e8a598" />,
+  '👔': <Shirt size={32} color="#e8a598" />,
+  '👖': <PersonStanding size={32} color="#e8a598" />,
+  '🎨': <Paintbrush size={32} color="#e8a598" />,
+};
 
 /* ─── Tilt + Glow Card ─────────────────────────────────────────── */
 function ServiceCard({ item, index }: { item: Layanan; index: number }) {
@@ -98,12 +107,12 @@ function ServiceCard({ item, index }: { item: Layanan; index: number }) {
           width: 72, height: 72, borderRadius: 18,
           background: hovered ? 'rgba(232,165,152,0.15)' : 'rgba(255,255,255,0.06)',
           border: `1px solid ${hovered ? 'rgba(232,165,152,0.30)' : 'rgba(255,255,255,0.08)'}`,
-          marginBottom: 22, fontSize: 36,
+          marginBottom: 22,
           transition: 'all 0.35s ease',
           transform: hovered ? 'scale(1.1) rotate(-4deg)' : 'scale(1) rotate(0deg)',
           boxShadow: hovered ? '0 8px 24px rgba(232,165,152,0.2)' : 'none',
         }}>
-          {item.icon}
+          {iconMap[item.icon] ?? <Scissors size={32} color="#e8a598" />}
         </div>
 
         <h2 style={{
